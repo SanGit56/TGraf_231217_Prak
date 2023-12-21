@@ -22,3 +22,227 @@ Jika diinginkan situasi bahwa kuda tsb dapat:
 
 Maka aplikasikan algoritma untuk menyelesaikan masalah di atas ke dalam sebuah program dengan menunjukkan rute perjalanan seperti gambar kanan.<br>
 ![soal 2](soal2.png)
+
+### Jawab
+
+Algoritma yang umum digunakan untuk menyelesaikan Knight's Tour, permainan catur di mana kuda harus bergerak ke setiap kotak tepat satu kali tanpa berulang, adalah Algoritma Warnsdorff. Algoritma ini bekerja dengan prinsip pemilihan langkah yang mengutamakan kotak yang memiliki jumlah langkah tetangga yang paling sedikit. Langkah pertama dimulai dari posisi awal kuda, dan setiap langkah selanjutnya dipilih berdasarkan jumlah langkah yang dimiliki kotak tetangga yang paling sedikit. 
+
+> Full Kode Algoritma Warnsdorff :
+```
+# Python program to for Knight's tour problem using
+# Warnsdorff's algorithm
+import random
+
+class Cell:
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
+N = 8
+
+# Move pattern on basis of the change of
+# x coordinates and y coordinates respectively
+cx = [1, 1, 2, 2, -1, -1, -2, -2]
+cy = [2, -2, 1, -1, 2, -2, 1, -1]
+
+# function restricts the knight to remain within
+# the 8x8 chessboard
+def limits(x, y):
+	return ((x >= 0 and y >= 0) and (x < N and y < N))
+
+# Checks whether a square is valid and empty or not
+def isempty(a, x, y):
+	return (limits(x, y)) and (a[y * N + x] < 0)
+
+# Returns the number of empty squares adjacent to (x, y)
+def getDegree(a, x, y):
+	count = 0
+	for i in range(N):
+		if isempty(a, (x + cx[i]), (y + cy[i])):
+			count += 1
+	return count
+
+# Picks next point using Warnsdorff's heuristic.
+# Returns false if it is not possible to pick
+# next point.
+def nextMove(a, cell):
+	min_deg_idx = -1
+	c = 0
+	min_deg = (N + 1)
+	nx = 0
+	ny = 0
+
+	# Try all N adjacent of (*x, *y) starting
+	# from a random adjacent. Find the adjacent
+	# with minimum degree.
+	start = random.randint(0, 1000) % N
+	for count in range(0, N):
+		i = (start + count) % N
+		nx = cell.x + cx[i]
+		ny = cell.y + cy[i]
+		c = getDegree(a, nx, ny)
+		if ((isempty(a, nx, ny)) and c < min_deg):
+			min_deg_idx = i
+			min_deg = c
+
+	# IF we could not find a next cell
+	if (min_deg_idx == -1):
+		return None
+
+	# Store coordinates of next point
+	nx = cell.x + cx[min_deg_idx]
+	ny = cell.y + cy[min_deg_idx]
+
+	# Mark next move
+	a[ny * N + nx] = a[(cell.y) * N + (cell.x)] + 1
+
+	# Update next point
+	cell.x = nx
+	cell.y = ny
+
+	return cell
+
+# displays the chessboard with all the legal knight's moves
+def printA(a):
+	for i in range(N):
+		for j in range(N):
+			print("%d\t" % a[j * N + i], end="")
+		print()
+
+# checks its neighbouring squares
+# If the knight ends on a square that is one knight's move from the beginning square,then tour is closed
+def neighbour(x, y, xx, yy):
+	for i in range(N):
+		if ((x + cx[i]) == xx) and ((y + cy[i]) == yy):
+			return True
+	return False
+
+# Generates the legal moves using warnsdorff's heuristics. Returns false if not possible
+def findClosedTour():
+	# Filling up the chessboard matrix with -1's
+	a = [-1] * N * N
+
+	# initial position
+	sx = 3
+	sy = 2
+
+	# Current points are same as initial points
+	cell = Cell(sx, sy)
+
+	a[cell.y * N + cell.x] = 1 # Mark first move.
+
+	# Keep picking next points using Warnsdorff's heuristic
+	ret = None
+	for i in range(N * N - 1):
+		ret = nextMove(a, cell)
+		if ret == None:
+			return False
+
+	# Check if tour is closed (Can end at starting point)
+	if not neighbour(ret.x, ret.y, sx, sy):
+		return False
+	printA(a)
+	return True
+
+
+# Driver Code
+if __name__ == '__main__':
+	# While we don't get a solution
+	while not findClosedTour():
+		pass
+```
+
+### Penjelasan :
+
+`Import library dan inisialisasi konstanta`
+```
+import random
+
+class Cell:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+N = 8
+
+cx = [1, 1, 2, 2, -1, -1, -2, -2]
+cy = [2, -2, 1, -1, 2, -2, 1, -1]
+```
+
+- Import Library: Kode ini mengimport modul random untuk digunakan dalam pemilihan langkah berikutnya secara acak.
+- Class Cell: Digunakan untuk merepresentasikan koordinat sel pada papan catur.
+- N: Variabel konstanta yang menyatakan ukuran papan catur (8x8).
+- cx dan cy: Menentukan perubahan koordinat x dan y untuk setiap langkah yang mungkin oleh kuda.
+
+`Fungsi-fungsi utilitas`
+```
+def limits(x, y):
+    return ((x >= 0 and y >= 0) and (x < N and y < N))
+
+def isempty(a, x, y):
+    return (limits(x, y)) and (a[y * N + x] < 0)
+
+def getDegree(a, x, y):
+    count = 0
+    for i in range(N):
+        if isempty(a, (x + cx[i]), (y + cy[i])):
+            count += 1
+    return count
+```
+- limits(x, y): Memeriksa apakah koordinat (x, y) berada dalam batas papan catur.
+- isempty(a, x, y): Memeriksa apakah sel pada koordinat (x, y) kosong (belum dikunjungi).
+- getDegree(a, x, y): Menghitung jumlah sel tetangga yang dapat dikunjungi dari koordinat (x, y).
+
+`Fungsi nextMove`
+```
+def nextMove(a, cell):
+    # ... (Isi fungsi nextMove)
+```
+- Memilih langkah selanjutnya menggunakan algoritma Warnsdorff. Mengembalikan objek Cell yang berisi koordinat langkah selanjutnya atau None jika tidak ada langkah yang mungkin.
+
+
+`Fungsi printA`
+```
+def printA(a):
+    for i in range(N):
+        for j in range(N):
+            print("%d\t" % a[j * N + i], end="")
+        print()
+```
+- printA(a): Mencetak papan catur dengan status kunjungan setiap sel.
+
+`Fungsi neighbour`
+```
+def neighbour(x, y, xx, yy):
+    for i in range(N):
+        if ((x + cx[i]) == xx) and ((y + cy[i]) == yy):
+            return True
+    return False
+```
+- Memeriksa apakah koordinat (xx, yy) adalah tetangga dari (x, y).
+
+`Fungsi findClosedTour`
+```
+def findClosedTour():
+    # ... (Isi fungsi findClosedTour)
+```
+- Menjalankan algoritma Knight's Tour menggunakan algoritma Warnsdorff. Mengembalikan True jika tour tertutup (kuda kembali ke titik awal) dan mencetak papan catur, sebaliknya mengembalikan False.
+
+### Testing dengan starting point [0,4]:
+Starting point dapat diganti pada bagian sx dan sy (koordinat x dan y) pada fungsi `def findClosedTour():`. Jadi yang starting point awalnya :
+```
+	# initial position
+	sx = 3
+	sy = 2
+```
+
+Diubah menjadi :
+```
+	# initial position
+	sx = 0
+	sy = 4
+```
+
+**Hasil :**
+
+![image](https://github.com/SanGit56/TGraf_231217_Prak/assets/133391111/83b52e7d-183e-41fb-9120-f97b61004981)
