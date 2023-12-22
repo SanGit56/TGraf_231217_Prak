@@ -13,6 +13,51 @@ Darvin Exaudi Simanjuntak | 5025211172
 ## 1. Implemantasikan sebuah program untuk menyelesaikan permasalahan “Largest Monotonically Increasing Subsequence”
 ![soal 1](soal1.png)
 
+### Jawab
+> Full Kode LMIS :
+```c++
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int findLMISLength(const vector<int>& arr) {
+    int n = arr.size();
+    vector<int> dp(n, 1); // dp[i] stores the length of LMIS ending at index i
+
+    for (int i = 1; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (arr[i] > arr[j] && dp[i] < dp[j] + 1) {
+                dp[i] = dp[j] + 1;
+            }
+        }
+    }
+
+    int maxLength = 0;
+    for (int i = 0; i < n; ++i) {
+        if (dp[i] > maxLength) {
+            maxLength = dp[i];
+        }
+    }
+
+    return maxLength;
+}
+
+int main() {
+    vector<int> arr = {4, 1, 13, 7, 0, 2, 8, 11, 3};
+    
+    int result = findLMISLength(arr);
+
+    cout << "Length of Longest Monotonically Increasing Subsequence: " << result << endl;
+
+    return 0;
+}
+```
+
+### Penjelasan :
+1. Program menginisialisasi array
+2. Mengimplementasikan _dynamic programming_ untuk menyelesaikan permasalahan Largest Monotonically Increasing Subsequence
+3. Keluaran berupa berapa banyak angka yang tergabung dalam LMIS
 
 ## 2. The knight’s tour
 Jika sebuah bidak kuda diletakkan pada sebarang kotak untuk kemudian melakukan perjalanan (dengan cara pergerakan kuda) mengunjungi ke semua (8 x 8) kotak papan catur.<br>
@@ -28,7 +73,7 @@ Maka aplikasikan algoritma untuk menyelesaikan masalah di atas ke dalam sebuah p
 Algoritma yang umum digunakan untuk menyelesaikan Knight's Tour, permainan catur di mana kuda harus bergerak ke setiap kotak tepat satu kali tanpa berulang, adalah Algoritma Warnsdorff. Algoritma ini bekerja dengan prinsip pemilihan langkah yang mengutamakan kotak yang memiliki jumlah langkah tetangga yang paling sedikit. Langkah pertama dimulai dari posisi awal kuda, dan setiap langkah selanjutnya dipilih berdasarkan jumlah langkah yang dimiliki kotak tetangga yang paling sedikit. 
 
 > Full Kode Algoritma Warnsdorff :
-```
+```python
 # Python program to for Knight's tour problem using
 # Warnsdorff's algorithm
 import random
@@ -155,7 +200,7 @@ if __name__ == '__main__':
 ### Penjelasan :
 
 `Import library dan inisialisasi konstanta`
-```
+```python
 import random
 
 class Cell:
@@ -175,7 +220,7 @@ cy = [2, -2, 1, -1, 2, -2, 1, -1]
 - cx dan cy: Menentukan perubahan koordinat x dan y untuk setiap langkah yang mungkin oleh kuda.
 
 `Fungsi-fungsi utilitas`
-```
+```python
 def limits(x, y):
     return ((x >= 0 and y >= 0) and (x < N and y < N))
 
@@ -194,7 +239,7 @@ def getDegree(a, x, y):
 - getDegree(a, x, y): Menghitung jumlah sel tetangga yang dapat dikunjungi dari koordinat (x, y).
 
 `Fungsi nextMove`
-```
+```python
 def nextMove(a, cell):
     # ... (Isi fungsi nextMove)
 ```
@@ -202,7 +247,7 @@ def nextMove(a, cell):
 
 
 `Fungsi printA`
-```
+```python
 def printA(a):
     for i in range(N):
         for j in range(N):
@@ -212,7 +257,7 @@ def printA(a):
 - printA(a): Mencetak papan catur dengan status kunjungan setiap sel.
 
 `Fungsi neighbour`
-```
+```python
 def neighbour(x, y, xx, yy):
     for i in range(N):
         if ((x + cx[i]) == xx) and ((y + cy[i]) == yy):
@@ -222,7 +267,7 @@ def neighbour(x, y, xx, yy):
 - Memeriksa apakah koordinat (xx, yy) adalah tetangga dari (x, y).
 
 `Fungsi findClosedTour`
-```
+```python
 def findClosedTour():
     # ... (Isi fungsi findClosedTour)
 ```
@@ -230,14 +275,14 @@ def findClosedTour():
 
 ### Testing dengan starting point [0,4]:
 Starting point dapat diganti pada bagian sx dan sy (koordinat x dan y) pada fungsi `def findClosedTour():`. Jadi yang starting point awalnya :
-```
+```python
 	# initial position
 	sx = 3
 	sy = 2
 ```
 
 Diubah menjadi :
-```
+```python
 	# initial position
 	sx = 0
 	sy = 4
