@@ -55,9 +55,34 @@ int main() {
 ```
 
 ### Penjelasan :
-1. Program menginisialisasi array
-2. Mengimplementasikan _dynamic programming_ untuk menyelesaikan permasalahan Largest Monotonically Increasing Subsequence
-3. Keluaran berupa berapa banyak angka yang tergabung dalam LMIS
+Kode di atas adalah implementasi dalam bahasa Python untuk menyelesaikan masalah Largest Monotonically Increasing Subsequence (LMIS).
+
+Largest Monotonically Increasing Subsequence (LMIS) adalah rangkaian elemen terpanjang dalam suatu set bilangan yang diatur sedemikian rupa sehingga setiap elemen lebih besar atau sama dengan elemen sebelumnya. Dengan kata lain, LMIS adalah subsequence yang membentuk urutan yang selalu meningkat dan tidak pernah menurun.
+
+Contoh: Jika kita memiliki rangkaian bilangan [3, 4, 2, 8, 10], maka sebuah LMIS bisa menjadi [3, 4, 8, 10]. Urutan ini memenuhi syarat monotonik meningkat, dan tidak ada subsequence lain yang lebih panjang yang memenuhi kriteria ini dalam rangkaian tersebut.
+
+Dalam implementasi ini, rangkaian bilangan [4, 1, 13, 7, 0, 2, 8, 11, 3] diberikan sebagai contoh input. Logikanya, penyelesaian melibatkan pencarian dan identifikasi Largest Monotonically Increasing Subsequence, yang dalam hal ini adalah [4, 7, 8, 11].
+
+Kode program di atas adalah implementasi dalam C++ untuk mencari panjang dari Longest Monotonically Increasing Subsequence (LMIS) dari suatu array bilangan bulat. Berikut adalah penjelasan singkat untuk setiap bagian dari kode tersebut:
+
+1. `findLMISLength` Function : 
+   - Fungsi ini menerima vektor bilangan bulat (`arr`) sebagai parameter dan mengembalikan panjang dari Longest Monotonically Increasing Subsequence.
+   - Membuat vektor `dp` dengan ukuran `n` (jumlah elemen dalam `arr`) yang diinisialisasi dengan 1. Vektor ini akan menyimpan panjang dari LMIS yang berakhir di indeks ke-i.
+   - Melakukan dua loop bersarang:
+     - Loop pertama (`for (int i = 1; i < n; ++i)`) untuk iterasi melalui setiap elemen dalam array, dimulai dari indeks kedua.
+     - Loop kedua (`for (int j = 0; j < i; ++j)`) untuk membandingkan elemen-elemen sebelumnya dengan elemen ke-i dan memperbarui panjang LMIS jika ditemukan urutan yang lebih panjang.
+   - Setelah kedua loop selesai, mencari nilai maksimum dari vektor `dp` yang akan memberikan panjang dari LMIS terpanjang.
+
+2. `main` Function :
+   - Fungsi utama dimulai dengan membuat vektor `arr` sebagai contoh input dengan nilai `{4, 1, 13, 7, 0, 2, 8, 11, 3}`.
+   - Memanggil fungsi `findLMISLength` dengan vektor `arr` sebagai argumen dan menyimpan hasilnya dalam variabel `result`.
+   - Mencetak hasil panjang LMIS ke layar menggunakan `cout`.
+
+Jadi, secara keseluruhan, program ini menggunakan pendekatan dynamic programming untuk menghitung panjang dari Longest Monotonically Increasing Subsequence dari array yang diberikan dan mencetak hasilnya ke layar.
+
+Dengan hasil implementasi ini, kita dapat menyimpulkan bahwa panjang subsequence terpanjang adalah 4, dan subsequence tersebut terdiri dari angka-angka [4, 7, 8, 11].
+
+
 
 ## 2. The knight’s tour
 Jika sebuah bidak kuda diletakkan pada sebarang kotak untuk kemudian melakukan perjalanan (dengan cara pergerakan kuda) mengunjungi ke semua (8 x 8) kotak papan catur.<br>
