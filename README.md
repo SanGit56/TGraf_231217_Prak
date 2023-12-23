@@ -191,6 +191,10 @@ Fungsi rekursif yang mencoba semua langkah berikutnya dari posisi knight saat in
 
 secara keseluruhan, program ini menggunakan pendekatan backtracking untuk menyelesaikan masalah Tur Knight pada papan catur. Fungsi solve_knight_tour memanggil fungsi utilitas solve_knight_tour_util yang menggunakan rekursi untuk mencoba semua kemungkinan langkah knight hingga menemukan solusi atau menentukan bahwa solusi tidak ada.
 
+### Hasil :
+![image](https://github.com/SanGit56/TGraf_231217_Prak/assets/133391111/dabfdd75-9ab5-4489-aa29-3c7038f859b6)
+
+
 > Closed Tour dengan Warnsdorff's algorithm :
 ```python
 # Python program to for Knight's tour problem using
@@ -382,9 +386,10 @@ Diubah menjadi :
 ```python
 	# initial position
 	sx = 0
-	sy = 4
+	sy = 0
 ```
 
 **Hasil :**
 
-![image](https://github.com/SanGit56/TGraf_231217_Prak/assets/133391111/83b52e7d-183e-41fb-9120-f97b61004981)
+![image](https://github.com/SanGit56/TGraf_231217_Prak/assets/133391111/9f28409b-d22e-4c2a-bcd3-81c1d8c64e0b)
+
